@@ -52,7 +52,7 @@ $.get('stylebook.json', function(data) {
     //     outerCollapseContainer.setAttribute('class', 'collapse');
     //     outerCollapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
     //     outerCollapseContainer.setAttribute('data-parent', '#big-accordion');
-    
+
     // Remove the "collapse" class to show inner cards by default
         let outerCollapseContainer = document.createElement('div');
         // Remove the "collapse" class to show inner cards by default
@@ -216,4 +216,26 @@ function edit(buttonID) {
     console.log(textbox.innerText);
 
 }
+  
+// Get the search input field
+const searchInput = document.getElementById('search-input');
 
+// Add an event listener to the search input field
+searchInput.addEventListener('input', function() {
+  // Get the search query from the input field
+  const query = searchInput.value.trim().toLowerCase();
+
+  // Get all the card headers and descriptions
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    const header = card.querySelector('.card-header').textContent.trim().toLowerCase();
+    const description = card.querySelector('.card-body').textContent.trim().toLowerCase();
+
+    // Show/hide the card based on whether it contains the search query or not
+    if (header.includes(query) || description.includes(query)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
