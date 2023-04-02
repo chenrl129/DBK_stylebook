@@ -47,9 +47,16 @@ $.get('stylebook.json', function(data) {
         outerHeaderContainer.appendChild(outerHeader);
         outerCard.appendChild(outerHeaderContainer);
     
-       let outerCollapseContainer = document.createElement('div');
+    //    let outerCollapseContainer = document.createElement('div');
+    //     outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
+    //     outerCollapseContainer.setAttribute('class', 'collapse');
+    //     outerCollapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
+    //     outerCollapseContainer.setAttribute('data-parent', '#big-accordion');
+    
+    // Remove the "collapse" class to show inner cards by default
+        let outerCollapseContainer = document.createElement('div');
+        // Remove the "collapse" class to show inner cards by default
         outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
-        outerCollapseContainer.setAttribute('class', 'collapse');
         outerCollapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
         outerCollapseContainer.setAttribute('data-parent', '#big-accordion');
     
