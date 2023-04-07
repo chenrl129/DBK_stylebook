@@ -1,8 +1,5 @@
 const markInstance = new Mark(document.querySelector("#big-accordion"));
-
-tinymce.init({ // intialize in forloop for each term ID
-    selector: '#mytextarea'
-});
+  
 
 $.get('stylebook.json', function(data) {
     const obj = data;
@@ -186,7 +183,7 @@ $.get('stylebook.json', function(data) {
             //textbox.setAttribute('onInput', 'this.parentNode.dataset.replicatedValue = this.value');
             //textbox.setAttribute('cols', '120');
             //textbox.innerHTML = terms_arr[j]['definition'];
-            cardBody.innerHTML = obj[currLetter][j]['definition'];
+            cardBody.textContent = obj[currLetter][j]['definition'];
             cardBody.setAttribute('contenteditable', 'true')
             //cardBody.appendChild(textbox);
 
@@ -300,3 +297,15 @@ flagButtons.forEach(button => {
     filterCardsByFlag(flag);
   });
 });
+
+tinymce.init({
+    selector: "#mytextarea",
+    plugins: [
+      "advlist autolink lists link image charmap print preview anchor",
+      "searchreplace visualblocks code fullscreen",
+      "insertdatetime media table contextmenu paste"
+    ],
+    toolbar:
+      "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    content_css: "//www.tinymce.com/css/codepen.min.css",
+  });  
