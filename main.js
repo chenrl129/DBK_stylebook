@@ -1,3 +1,5 @@
+const markInstance = new Mark(document.querySelector("#big-accordion"));
+
 tinymce.init({ // intialize in forloop for each term ID
     selector: '#mytextarea'
 });
@@ -216,7 +218,7 @@ function edit(buttonID) {
     console.log(textbox.innerText);
 
 }
-  
+// SEARCH BAR FUNCTIONALITY 
 // Get the search input field
 const searchInput = document.getElementById('search-input');
 
@@ -239,3 +241,38 @@ searchInput.addEventListener('input', function() {
     }
   });
 });
+
+searchInput.addEventListener("input", function () {
+    // Get the search query from the input field
+    const query = searchInput.value.trim().toLowerCase();
+  
+    // Unmark any previously marked elements before searching
+    markInstance.unmark();
+  
+    // If the query is not empty, search and highlight the text
+    if (query) {
+      markInstance.mark(query, {
+        separateWordSearch: false,
+      });
+    }
+  
+    // Get all the card headers and descriptions
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+      const header = card
+        .querySelector(".card-header")
+        .textContent.trim()
+        .toLowerCase();
+      const description = card
+        .querySelector(".card-body")
+        .textContent.trim()
+        .toLowerCase();
+  
+      // Show/hide the card based on whether it contains the search query or not
+      if (header.includes(query) || description.includes(query)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });

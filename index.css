@@ -57,3 +57,8 @@
     /* Place on top of each other */
     grid-area: 1 / 1 / 2 / 2;
   }
+
+mark {
+    background-color: rgba(255, 255, 0, 0.5); /* highlighter yellow with 50% transparency */
+    padding: 0;
+}
