@@ -49,13 +49,7 @@ $.get('stylebook.json', function(data) {
         outerHeaderContainer.appendChild(outerHeader);
         outerCard.appendChild(outerHeaderContainer);
     
-    //    let outerCollapseContainer = document.createElement('div');
-    //     outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
-    //     outerCollapseContainer.setAttribute('class', 'collapse');
-    //     outerCollapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
-    //     outerCollapseContainer.setAttribute('data-parent', '#big-accordion');
 
-    // Remove the "collapse" class to show inner cards by default
         let outerCollapseContainer = document.createElement('div');
         // Remove the "collapse" class to show inner cards by default
         outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
@@ -276,3 +270,33 @@ searchInput.addEventListener("input", function () {
       }
     });
   });
+
+const flagButtons = document.querySelectorAll('.flag-button');
+
+function filterCardsByFlag(flag) {
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    const labels = card.querySelectorAll('.label');
+    let flagFound = false;
+
+    labels.forEach(label => {
+      if (label.textContent.trim() === flag) {
+        flagFound = true;
+      }
+    });
+
+    if (flagFound) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+flagButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const flag = button.dataset.flag;
+    filterCardsByFlag(flag);
+  });
+});
