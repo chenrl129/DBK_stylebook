@@ -174,7 +174,7 @@ $.get('stylebook.json', function(data) {
     
             let collapseContainer = document.createElement('div');
             collapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
-            collapseContainer.setAttribute('class', 'collapse');
+            // Remove the "collapse" class to show inner cards by default
             collapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
             collapseContainer.setAttribute('data-parent', '#' + innerAccordionID);
     
