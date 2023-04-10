@@ -81,4 +81,11 @@ mark {
     background-color: white;
     color: black;
   }
-  
+
+  .sticky-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px; /* Adjust according to your nav area height */
+    background-color: white;
+    z-index: 100;
+  }  

@@ -27,6 +27,7 @@ $.get('stylebook.json', function(data) {
         
         let outerHeaderContainer = document.createElement('div');
         outerHeaderContainer.setAttribute('class', 'card-header');
+        outerHeaderContainer.setAttribute('class', 'card-header sticky-header'); // Add the 'sticky-header' class here
         outerHeaderContainer.setAttribute('id', 'heading' + termCounter.toString());
     
         let outerHeader = document.createElement('h3');
@@ -187,7 +188,6 @@ $.get('stylebook.json', function(data) {
             cardBody.setAttribute('contenteditable', 'true')
             //cardBody.appendChild(textbox);
 
-            
 
             collapseContainer.appendChild(cardBody);
             card.appendChild(collapseContainer);
@@ -297,15 +297,3 @@ flagButtons.forEach(button => {
     filterCardsByFlag(flag);
   });
 });
-
-tinymce.init({
-    selector: "#mytextarea",
-    plugins: [
-      "advlist autolink lists link image charmap print preview anchor",
-      "searchreplace visualblocks code fullscreen",
-      "insertdatetime media table contextmenu paste"
-    ],
-    toolbar:
-      "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    content_css: "//www.tinymce.com/css/codepen.min.css",
-  });  
