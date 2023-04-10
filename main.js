@@ -1,6 +1,5 @@
-tinymce.init({ // intialize in forloop for each term ID
-    selector: '#mytextarea'
-});
+const markInstance = new Mark(document.querySelector("#big-accordion"));
+  
 
 $.get('stylebook.json', function(data) {
     const obj = data;
@@ -28,6 +27,7 @@ $.get('stylebook.json', function(data) {
         
         let outerHeaderContainer = document.createElement('div');
         outerHeaderContainer.setAttribute('class', 'card-header');
+        outerHeaderContainer.setAttribute('class', 'card-header sticky-header'); // Add the 'sticky-header' class here
         outerHeaderContainer.setAttribute('id', 'heading' + termCounter.toString());
     
         let outerHeader = document.createElement('h3');
@@ -47,13 +47,7 @@ $.get('stylebook.json', function(data) {
         outerHeaderContainer.appendChild(outerHeader);
         outerCard.appendChild(outerHeaderContainer);
     
-    //    let outerCollapseContainer = document.createElement('div');
-    //     outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
-    //     outerCollapseContainer.setAttribute('class', 'collapse');
-    //     outerCollapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
-    //     outerCollapseContainer.setAttribute('data-parent', '#big-accordion');
 
-    // Remove the "collapse" class to show inner cards by default
         let outerCollapseContainer = document.createElement('div');
         // Remove the "collapse" class to show inner cards by default
         outerCollapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
@@ -172,7 +166,7 @@ $.get('stylebook.json', function(data) {
     
             let collapseContainer = document.createElement('div');
             collapseContainer.setAttribute('id', 'collapse' + termCounter.toString());
-            collapseContainer.setAttribute('class', 'collapse');
+            // Remove the "collapse" class to show inner cards by default
             collapseContainer.setAttribute('aria-labelledby', 'heading' + termCounter.toString());
             collapseContainer.setAttribute('data-parent', '#' + innerAccordionID);
     
@@ -190,11 +184,10 @@ $.get('stylebook.json', function(data) {
             //textbox.setAttribute('onInput', 'this.parentNode.dataset.replicatedValue = this.value');
             //textbox.setAttribute('cols', '120');
             //textbox.innerHTML = terms_arr[j]['definition'];
-            cardBody.innerHTML = obj[currLetter][j]['definition'];
+            cardBody.textContent = obj[currLetter][j]['definition'];
             cardBody.setAttribute('contenteditable', 'true')
             //cardBody.appendChild(textbox);
 
-            
 
             collapseContainer.appendChild(cardBody);
             card.appendChild(collapseContainer);
@@ -216,7 +209,7 @@ function edit(buttonID) {
     console.log(textbox.innerText);
 
 }
-  
+// SEARCH BAR FUNCTIONALITY 
 // Get the search input field
 const searchInput = document.getElementById('search-input');
 
@@ -237,5 +230,70 @@ searchInput.addEventListener('input', function() {
     } else {
       card.style.display = 'none';
     }
+  });
+});
+
+searchInput.addEventListener("input", function () {
+    // Get the search query from the input field
+    const query = searchInput.value.trim().toLowerCase();
+  
+    // Unmark any previously marked elements before searching
+    markInstance.unmark();
+  
+    // If the query is not empty, search and highlight the text
+    if (query) {
+      markInstance.mark(query, {
+        separateWordSearch: false,
+      });
+    }
+  
+    // Get all the card headers and descriptions
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+      const header = card
+        .querySelector(".card-header")
+        .textContent.trim()
+        .toLowerCase();
+      const description = card
+        .querySelector(".card-body")
+        .textContent.trim()
+        .toLowerCase();
+  
+      // Show/hide the card based on whether it contains the search query or not
+      if (header.includes(query) || description.includes(query)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+
+const flagButtons = document.querySelectorAll('.flag-button');
+
+function filterCardsByFlag(flag) {
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    const labels = card.querySelectorAll('.label');
+    let flagFound = false;
+
+    labels.forEach(label => {
+      if (label.textContent.trim() === flag) {
+        flagFound = true;
+      }
+    });
+
+    if (flagFound) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+flagButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const flag = button.dataset.flag;
+    filterCardsByFlag(flag);
   });
 });
