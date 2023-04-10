@@ -185,7 +185,8 @@ $.get('stylebook.json', function(data) {
             //textbox.setAttribute('cols', '120');
             //textbox.innerHTML = terms_arr[j]['definition'];
             cardBody.textContent = obj[currLetter][j]['definition'];
-            cardBody.setAttribute('contenteditable', 'true')
+            cardBody.setAttribute('class', 'quill-editor');
+            cardBody.id = 'quill-editor-' + termCounter;
             //cardBody.appendChild(textbox);
 
 
@@ -198,6 +199,25 @@ $.get('stylebook.json', function(data) {
 
         
     }
+    function initQuillEditors() {
+      const quillEditors = document.querySelectorAll('.quill-editor');
+      
+      quillEditors.forEach((editor) => {
+        const quill = new Quill('#' + editor.id, {
+          modules: {
+            toolbar: [
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+              ['link']
+            ]
+          },
+          theme: 'snow'
+        });
+      });
+    }
+    
+    initQuillEditors();
+    
 });
 
 function edit(buttonID) {
