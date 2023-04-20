@@ -85,7 +85,16 @@ mark {
   .sticky-header {
     position: -webkit-sticky;
     position: sticky;
-    top: 0px; /* Adjust according to your nav area height */
+    top: 72px; /* Adjust according to your nav area height */
     background-color: white;
     z-index: 100;
   }  
+
+  .sticky-navbar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Add any other desired styling for the navbar */
+  }
+  
