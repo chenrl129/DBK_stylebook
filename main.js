@@ -187,11 +187,35 @@ $.get('stylebook.json', function(data) {
             cardBody.textContent = obj[currLetter][j]['definition'];
             cardBody.setAttribute('contenteditable', 'true');
             //QUILL EDITOR TEST
-            // cardBody.setAttribute('class', 'quill-editor');
-            // cardBody.id = 'quill-editor-' + termCounter;
+            cardBody.setAttribute('class', 'quill-editor');
+            cardBody.id = 'quill-editor-' + termCounter;
 
             //cardBody.appendChild(textbox);
 
+            // MAKE TEXT BOX APPEAR ON CLICK -- NOT WORKING
+            // cardBody.addEventListener("click", function () {
+            //   if (!this.classList.contains("quill-initialized")) {
+            //     const quill = new Quill("#" + this.id, {
+            //       modules: {
+            //         toolbar: [
+            //           ["bold", "italic", "underline", "strike"],
+            //           [{ list: "ordered" }, { list: "bullet" }],
+            //           ["link"],
+            //         ],
+            //       },
+            //       theme: "snow",
+            //     });
+            
+            //     quill.on("text-change", () => {
+            //       clearTimeout(window.quillSaveTimeout);
+            //       window.quillSaveTimeout = setTimeout(() => {
+            //         this.setAttribute("data-html-content", quill.root.innerHTML);
+            //       }, 500);
+            //     });
+            
+            //     this.classList.add("quill-initialized");
+            //   }
+            // });
 
             collapseContainer.appendChild(cardBody);
             card.appendChild(collapseContainer);
