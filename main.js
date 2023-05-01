@@ -35,6 +35,7 @@ $.get('stylebook.json', function(data) {
         outerHeaderContainer.setAttribute('class', 'card-header');
         outerHeaderContainer.setAttribute('class', 'card-header sticky-header'); // Add the 'sticky-header' class here
         outerHeaderContainer.setAttribute('id', 'heading' + termCounter.toString());
+        outerHeaderContainer.setAttribute("data-letter", currLetter); // Add this line to set the data-letter attribute
     
         let outerHeader = document.createElement('h3');
         outerHeader.setAttribute('class', 'mb-0');
@@ -383,3 +384,15 @@ function handleFavorites(star, term, card) {
     }
   }
 }
+
+document.querySelectorAll("#alphabet-navigation a").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const letter = link.dataset.letter;
+    const letterSection = document.querySelector(`.card-header[data-letter="${letter}"]`);
+
+    if (letterSection) {
+      letterSection.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+});
