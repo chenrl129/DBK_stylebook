@@ -1,5 +1,6 @@
 const markInstance = new Mark(document.querySelector("#big-accordion"));
-  
+const starFavoriteMap = new Map();
+
 
 $.get('stylebook.json', function(data) {
     const obj = data;
@@ -93,7 +94,22 @@ $.get('stylebook.json', function(data) {
             //button.innerHTML = obj[currLetter][i]['Term'];
             button.innerHTML = terms_arr[j]['Term'];
             //console.log(terms_arr);
-    
+          
+            // Create the star icon and add it to the header
+            let starIcon = document.createElement('i');
+            starIcon.classList.add('far', 'fa-star', 'favorite-icon'); // Unfilled star: use "fas" instead of "far" for filled star
+            starIcon.addEventListener('click', function() {
+            // Your code to handle adding/removing from favorites
+            });
+            header.appendChild(starIcon);
+
+            starIcon.addEventListener('click', function () {
+              this.classList.toggle('fas');
+              this.classList.toggle('far');
+              this.style.color = this.classList.contains('fas') ? 'yellow' : '';
+              handleFavorites(this, terms_arr[j], card);
+            });                    
+            
             header.appendChild(button);
 
             let editDiv = document.createElement('div');
@@ -345,3 +361,20 @@ flagButtons.forEach(button => {
     filterCardsByFlag(flag);
   });
 });
+
+function handleFavorites(star, term, card) {
+  const favoritesContainer = document.getElementById('favorites-container');
+
+  if (star.classList.contains('fas')) {
+    // If the star is filled, add the card to the favorites container
+    const cardClone = card.cloneNode(true);
+    cardClone.id = `fav-${term.id}`; // Assign a new ID for the cloned card
+    favoritesContainer.appendChild(cardClone);
+  } else {
+    // If the star is not filled, remove the card from the favorites container
+    const cardToRemove = document.getElementById(`fav-${term.id}`);
+    if (cardToRemove) {
+      favoritesContainer.removeChild(cardToRemove);
+    }
+  }
+}

@@ -98,3 +98,8 @@ mark {
     /* Add any other desired styling for the navbar */
   }
   
+  .favorite-icon {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
