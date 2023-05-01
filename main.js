@@ -1,5 +1,11 @@
 const markInstance = new Mark(document.querySelector("#big-accordion"));
-  
+const starFavoriteMap = new Map();
+
+function decodeUnicode(str) {
+  return str.replace(/\\u([\d\w]{4})/gi, (match, grp) => {
+    return String.fromCharCode(parseInt(grp, 16));
+  });
+}
 
 $.get('stylebook.json', function(data) {
     const obj = data;
@@ -93,7 +99,22 @@ $.get('stylebook.json', function(data) {
             //button.innerHTML = obj[currLetter][i]['Term'];
             button.innerHTML = terms_arr[j]['Term'];
             //console.log(terms_arr);
-    
+          
+            // Create the star icon and add it to the header
+            let starIcon = document.createElement('i');
+            starIcon.classList.add('far', 'fa-star', 'favorite-icon'); // Unfilled star: use "fas" instead of "far" for filled star
+            starIcon.addEventListener('click', function() {
+            // Your code to handle adding/removing from favorites
+            });
+            header.appendChild(starIcon);
+
+            starIcon.addEventListener('click', function () {
+              this.classList.toggle('fas');
+              this.classList.toggle('far');
+              this.style.color = this.classList.contains('fas') ? 'yellow' : '';
+              handleFavorites(this, terms_arr[j], card);
+            });                    
+            
             header.appendChild(button);
 
             let editDiv = document.createElement('div');
@@ -184,14 +205,38 @@ $.get('stylebook.json', function(data) {
             //textbox.setAttribute('onInput', 'this.parentNode.dataset.replicatedValue = this.value');
             //textbox.setAttribute('cols', '120');
             //textbox.innerHTML = terms_arr[j]['definition'];
-            cardBody.textContent = obj[currLetter][j]['definition'];
+            cardBody.innerHTML = decodeUnicode(terms_arr[j]['definition']).replace(/\n/g, '<br>');
             cardBody.setAttribute('contenteditable', 'true');
             //QUILL EDITOR TEST
-            // cardBody.setAttribute('class', 'quill-editor');
-            // cardBody.id = 'quill-editor-' + termCounter;
+            cardBody.setAttribute('class', 'quill-editor');
+            cardBody.id = 'quill-editor-' + termCounter;
 
             //cardBody.appendChild(textbox);
 
+            // MAKE TEXT BOX APPEAR ON CLICK -- NOT WORKING
+            // cardBody.addEventListener("click", function () {
+            //   if (!this.classList.contains("quill-initialized")) {
+            //     const quill = new Quill("#" + this.id, {
+            //       modules: {
+            //         toolbar: [
+            //           ["bold", "italic", "underline", "strike"],
+            //           [{ list: "ordered" }, { list: "bullet" }],
+            //           ["link"],
+            //         ],
+            //       },
+            //       theme: "snow",
+            //     });
+            
+            //     quill.on("text-change", () => {
+            //       clearTimeout(window.quillSaveTimeout);
+            //       window.quillSaveTimeout = setTimeout(() => {
+            //         this.setAttribute("data-html-content", quill.root.innerHTML);
+            //       }, 500);
+            //     });
+            
+            //     this.classList.add("quill-initialized");
+            //   }
+            // });
 
             collapseContainer.appendChild(cardBody);
             card.appendChild(collapseContainer);
@@ -321,3 +366,20 @@ flagButtons.forEach(button => {
     filterCardsByFlag(flag);
   });
 });
+
+function handleFavorites(star, term, card) {
+  const favoritesContainer = document.getElementById('favorites-container');
+
+  if (star.classList.contains('fas')) {
+    // If the star is filled, add the card to the favorites container
+    const cardClone = card.cloneNode(true);
+    cardClone.id = `fav-${term.id}`; // Assign a new ID for the cloned card
+    favoritesContainer.appendChild(cardClone);
+  } else {
+    // If the star is not filled, remove the card from the favorites container
+    const cardToRemove = document.getElementById(`fav-${term.id}`);
+    if (cardToRemove) {
+      favoritesContainer.removeChild(cardToRemove);
+    }
+  }
+}
