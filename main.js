@@ -1,6 +1,11 @@
 const markInstance = new Mark(document.querySelector("#big-accordion"));
 const starFavoriteMap = new Map();
 
+function decodeUnicode(str) {
+  return str.replace(/\\u([\d\w]{4})/gi, (match, grp) => {
+    return String.fromCharCode(parseInt(grp, 16));
+  });
+}
 
 $.get('stylebook.json', function(data) {
     const obj = data;
@@ -200,7 +205,7 @@ $.get('stylebook.json', function(data) {
             //textbox.setAttribute('onInput', 'this.parentNode.dataset.replicatedValue = this.value');
             //textbox.setAttribute('cols', '120');
             //textbox.innerHTML = terms_arr[j]['definition'];
-            cardBody.textContent = obj[currLetter][j]['definition'];
+            cardBody.innerHTML = decodeUnicode(terms_arr[j]['definition']).replace(/\n/g, '<br>');
             cardBody.setAttribute('contenteditable', 'true');
             //QUILL EDITOR TEST
             cardBody.setAttribute('class', 'quill-editor');
