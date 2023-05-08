@@ -1,32 +1,28 @@
 const markInstance = new Mark(document.querySelector("#big-accordion"));
 const starFavoriteMap = new Map();
+let jsonData = [];
 
 function decodeUnicode(str) {
   return str.replace(/\\u([\d\w]{4})/gi, (match, grp) => {
     return String.fromCharCode(parseInt(grp, 16));
   });
 }
+function renderCards() {
+  const container = document.getElementById('big-accordion');
+  container.innerHTML = ''; // Clear the container to remove the existing cards
 
-$.get('stylebook.json', function(data) {
-    const obj = data;
-    //const obj = JSON.parse(JSON.stringify(data));
-    const container = document.getElementById('big-accordion');
-    let termCounter = 0;
-    //console.log(obj[Object.keys(obj)[0]].length);
-    const letter_arr = Object.keys(obj);
-    let currLetter = '';
+  let termCounter = 0;
+  const letter_arr = Object.keys(jsonData);
+  let currLetter = '';
 
-    for (let i = 0; i < letter_arr.length; i++) {
-        currLetter = letter_arr[i];
-        //console.log(obj[currLetter][i]['Term']);
-        addCards(obj, container, currLetter);
-        
-    }
+  for (let i = 0; i < letter_arr.length; i++) {
+    currLetter = letter_arr[i];
+    addCards(jsonData, container, currLetter);
+  }
 
     function addCards(obj, container, currLetter) {
         let terms_arr = obj[currLetter];
         let termsLength = obj[currLetter].length;
-        //console.log(termCounter);
         
         let outerCard = document.createElement('div');
         outerCard.setAttribute('class', 'card');
@@ -74,7 +70,6 @@ $.get('stylebook.json', function(data) {
         outerCollapseContainer.appendChild(outerCardBody);
         outerCard.appendChild(outerCollapseContainer);
         container.appendChild(outerCard);
-        //termCounter++;
     
         for (let j = 0; j < termsLength; j++) {
             let card = document.createElement('div');
@@ -97,7 +92,6 @@ $.get('stylebook.json', function(data) {
             button.setAttribute('data-target', '#collapse' + termCounter.toString());
             button.setAttribute('aria-expanded', 'false');
             button.setAttribute('aria-controls', 'collapse' + termCounter.toString());
-            //button.innerHTML = obj[currLetter][i]['Term'];
             button.innerHTML = terms_arr[j]['Term'];
             //console.log(terms_arr);
           
@@ -130,7 +124,6 @@ $.get('stylebook.json', function(data) {
             editDefBtn.setAttribute('class', 'btn-warning');
             editDefBtn.setAttribute('id', 'edit-btn' + termCounter.toString());
             editDefBtn.setAttribute('onClick', 'edit(this.id)');
-            //editDefBtn.onclick = edit;
             editDefBtn.innerHTML = 'Edit Description';
 
             let addTermBtn = document.createElement('button');
@@ -268,6 +261,11 @@ $.get('stylebook.json', function(data) {
     
     // initQuillEditors();
     
+;}
+
+$.get('stylebook.json', function(data) {
+  jsonData = data; // Assign the fetched data to jsonData variable
+  renderCards(); // Call the renderCards() function to render the cards based on the fetched data
 });
 
 function edit(buttonID) {
@@ -406,4 +404,51 @@ favoritesBtn.addEventListener("click", (e) => {
     top: 0,
     behavior: "smooth",
   });
+});
+
+
+function addEntryToJSON() {
+  const entryTerm = document.getElementById('entryTerm').value;
+  const entryTags = Array.from(document.getElementById('entryTags').selectedOptions).map(option => option.value);
+  const entryDefinition = document.getElementById('entryDefinition').value;
+
+  if (!entryTerm || !entryDefinition) {
+    return false;
+  }
+
+  const newEntry = {
+    Term: entryTerm,
+    Important: entryTags.includes('Important'),
+    Sports: entryTags.includes('Sports'),
+    'AP Deviation': entryTags.includes('AP Deviation'),
+    definition: entryDefinition
+  };
+
+  // Find the first letter of the term
+  const firstLetter = entryTerm.charAt(0).toUpperCase();
+
+  // Check if the first letter already exists in the jsonData object
+  if (jsonData.hasOwnProperty(firstLetter)) {
+    // If it does, push the new entry to the existing array
+    jsonData[firstLetter].push(newEntry);
+  } else {
+    // If it doesn't, create a new array with the new entry and add it to the jsonData object
+    jsonData[firstLetter] = [newEntry];
+  }
+
+  // Reset the form
+  document.getElementById('add-entry-form').reset();
+
+  return true;
+}
+
+$('#saveEntry').on('click', () => {
+  if (addEntryToJSON()) {
+    // Close the modal
+    $('#addEntryModal').modal('hide');
+    // Re-render the cards on the page to include the new entry
+    renderCards();
+  } else {
+    alert('Please provide a term and a definition.');
+  }
 });
