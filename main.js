@@ -396,3 +396,14 @@ document.querySelectorAll("#alphabet-navigation a").forEach((link) => {
     }
   });
 });
+
+const favoritesBtn = document.getElementById("favorites-btn");
+
+favoritesBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent the default behavior of anchor tags
+  // Scroll to the top of the page
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+});
