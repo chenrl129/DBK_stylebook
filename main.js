@@ -301,40 +301,41 @@ searchInput.addEventListener('input', function() {
   });
 });
 
-searchInput.addEventListener("input", function () {
-    // Get the search query from the input field
-    const query = searchInput.value.trim().toLowerCase();
-  
-    // Unmark any previously marked elements before searching
-    markInstance.unmark();
-  
-    // If the query is not empty, search and highlight the text
-    if (query) {
-      markInstance.mark(query, {
-        separateWordSearch: false,
-      });
-    }
-  
-    // Get all the card headers and descriptions
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card) => {
-      const header = card
-        .querySelector(".card-header")
-        .textContent.trim()
-        .toLowerCase();
-      const description = card
-        .querySelector(".card-body")
-        .textContent.trim()
-        .toLowerCase();
-  
-      // Show/hide the card based on whether it contains the search query or not
-      if (header.includes(query) || description.includes(query)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
+searchInput.addEventListener('input', function() {
+  // Get the search query from the input field
+  const query = searchInput.value.trim().toLowerCase();
+
+  // Unmark any previously marked elements before searching
+  markInstance.unmark();
+
+  // If the query is not empty, search and highlight the text
+  if (query) {
+    markInstance.mark(query, {
+      separateWordSearch: false,
+      done: function() {
+        // Get all the card headers and descriptions
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          // Check if the card contains any highlighted elements
+          const hasHighlight = card.querySelector('mark') !== null;
+
+          // Show/hide the card based on whether it contains a highlighted search query or not
+          if (hasHighlight) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
       }
     });
-  });
+  } else {
+    // If the query is empty, display all the cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.style.display = 'block';
+    });
+  }
+});
 
 const flagButtons = document.querySelectorAll('.flag-button');
 
