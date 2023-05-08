@@ -38,11 +38,14 @@
         <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
           <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" style="border-color: black; color: white;">Reset</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 ml-2" type="button" data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeEntryModal">Remove Entry</button>
         </form> 
     </nav>
 
 
     <div id="alphabet-navigation" class="sticky-nav">
+      <a href="#" id="favorites-btn">Favorites</a>
       <a href="#" data-letter="A">A</a>
       <a href="#" data-letter="B">B</a>
       <a href="#" data-letter="C">C</a>
@@ -86,6 +89,43 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
+<!-- Add Entry Modal -->
+<div class="modal fade" id="addEntryModal" tabindex="-1" role="dialog" aria-labelledby="addEntryModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEntryModalLabel">Add Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="add-entry-form">
+          <div class="form-group">
+            <label for="entryTerm">Term</label>
+            <input type="text" class="form-control" id="entryTerm" placeholder="Enter term">
+          </div>
+          <div class="form-group">
+            <label for="entryTags">Tags</label>
+            <select class="form-control" id="entryTags" multiple>
+              <option value="Important">Important</option>
+              <option value="Sports">Sports</option>
+              <option value="AP Deviation">AP Deviation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="entryDefinition">Definition</label>
+            <textarea class="form-control" id="entryDefinition" rows="3"></textarea>
+          </div>
+        </form>
+      </div>      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveEntry">Save Entry</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
 </html>
