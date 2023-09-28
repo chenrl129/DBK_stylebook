@@ -621,14 +621,6 @@
       }
     },
     {
-      "When referring to this university as an entity, use the University of Maryland on first reference, and the university or this university on subsequent references. Use the word university when modifying student groups, organizations, etc.: The university administration, the university jousting club, the university club baseball team. But for varsity sports teams, use Maryland.\n": {
-        "important": false,
-        "sports": false,
-        "ap": false,
-        "definition": "See university\n"
-      }
-    },
-    {
       "campuswide\n": {
         "important": false,
         "sports": false,
