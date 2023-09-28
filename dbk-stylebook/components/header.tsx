@@ -1,4 +1,17 @@
-const Header = ()  => {
+import { useState } from 'react';
+
+interface HeaderProps {
+    setSearchInput: (input: string) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ setSearchInput }) => {
+    const [input, setInput] = useState('');
+
+    const handleSearch = (e: any) => {
+        setInput(e.target.value);
+        setSearchInput(e.target.value);
+    };
+
     return (
         <div className="border-b -mt-4">
             <div className="mx-auto p-8 pt-14">
@@ -20,6 +33,8 @@ const Header = ()  => {
                             id="search"
                             type="search"
                             placeholder="Search"
+                            value={input}
+                            onChange={handleSearch} 
                         />
 
                         <button
