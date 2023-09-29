@@ -10,6 +10,19 @@ interface MainSectionProps {
 const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
     const lowercasedSearchInput = searchInput.toLowerCase();
 
+    const highlightText = (text: string) => {
+        if (searchInput.length < 2) {
+            return text;
+        } else {
+            const parts = text.split(new RegExp(`(${searchInput})`, 'gi'));
+            return <span> { parts.map((part, i) => 
+            part.toLowerCase() === lowercasedSearchInput 
+                ? <span key={i} className="bg-yellow-300">{part}</span> 
+                : part 
+        )} </span>;
+        }
+    }
+
     return (
         <div>
             {Object.keys(data).map((letter, index) => {
@@ -46,7 +59,7 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                     <div className="sm:flex sm:justify-between sm:gap-4">
                                         <div>
                                             <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
-                                                {title}
+                                                {highlightText(title)}
                                             </h3>
 
                                             {content.important && <p className="mt-1 text-xs font-medium text-red-600">Important</p>}
@@ -58,7 +71,7 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                     <div className="mt-4">
                                         {content.definition && content.definition.split('\n').map((line: string, lineIndex: number) => (
                                             <p key={lineIndex} className="text-sm text-gray-500">
-                                                {line}
+                                                {highlightText(line)}
                                             </p>
                                         ))}
                                     </div>
