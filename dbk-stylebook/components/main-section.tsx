@@ -1,24 +1,27 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator"
-import data from "@/lib/stylebook.json"; // Import the JSON data
+import data from "@/lib/stylebook.json";
 
 interface MainSectionProps {
     searchInput: string;
 }
 
 const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
-return (
+    const lowercasedSearchInput = searchInput.toLowerCase();
+
+    return (
         <div>
             {Object.keys(data).map((letter, index) => {
                 const filteredItems = (data as {[key: string]: any})[letter]
-                    .filter((item: string) => {
+                    .filter((item: any) => {
                         const title = Object.keys(item)[0].toLowerCase();
-                        return title.includes(searchInput.toLowerCase());
+                        const definition = item[Object.keys(item)[0]].definition.toLowerCase();
+                        return title.includes(lowercasedSearchInput) || definition.includes(lowercasedSearchInput);
                     });
 
                 if (filteredItems.length === 0) {
-                    return null; // or simply return;
+                    return null; 
                 }
 
                 return (
