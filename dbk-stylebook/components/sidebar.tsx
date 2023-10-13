@@ -2,10 +2,28 @@
 
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from 'react';
-import { ScrollArea } from "@/components/ui/scroll-area"
-import data from "@/lib/stylebook.json"; // Importing the JSON data
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { supabase } from '@/lib/api'; // Assuming you have a similar import path
 
 const Sidebar = () => {
+    const [data, setData] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data: fetchedData, error } = await supabase
+                .from('stylebook')
+                .select();
+
+            if (error) {
+                console.error('Error fetching data:', error);
+            } else {
+                setData(fetchedData || []);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const handleScroll = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
         const element = document.getElementById(id);
@@ -14,6 +32,15 @@ const Sidebar = () => {
         }
     };
 
+    const groupedData = data.reduce((groups, item) => {
+        const letter = item.letter;
+        if (!groups[letter]) {
+            groups[letter] = [];
+        }
+        groups[letter].push(item);
+        return groups;
+    }, {} as { [key: string]: any[] });
+
     return (
         <div className="flex flex-col h-full bg-white">
             <ScrollArea className="w-full h-full">
@@ -21,13 +48,13 @@ const Sidebar = () => {
                     <div className="px-4">
                         <ul className="mt-6 space-y-1">
                             {
-                                Object.keys(data).map((letter: string) => (
+                                Object.keys(groupedData).map((letter) => (
                                     <li key={letter}>
                                         <details className="group [&_summary::-webkit-details-marker]:hidden">
                                             <summary
                                                 className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                             >
-                                                <span className="text-sm font-medium">{letter}</span> {/* Displaying the letter here */}
+                                                <span className="text-sm font-medium">{letter}</span>
 
                                                 <span className="shrink-0 transition duration-300 group-open:-rotate-180">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -38,20 +65,16 @@ const Sidebar = () => {
 
                                             <ul className="mt-2 space-y-1 px-4">
                                                 {
-                                                    (data as {[key: string]: any})[letter].map((item: any, index: number) => {
-                                                        const title = Object.keys(item)[0];
-                                                        return (
-                                                            <li key={index}>
-                                                                <a
-                                                                    onClick={(e) => handleScroll(e, title)} // Updated line
-                                                                    className="hover:cursor-pointer block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                                                                >
-                                                                    {title}
-                                                                </a>
-
-                                                            </li>
-                                                        );
-                                                    })
+                                                    groupedData[letter].map((item: any, index: number) => (
+                                                        <li key={index}>
+                                                            <a
+                                                                onClick={(e) => handleScroll(e, item.term)}
+                                                                className="hover:cursor-pointer block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                                            >
+                                                                {item.term}
+                                                            </a>
+                                                        </li>
+                                                    ))
                                                 }
                                             </ul>
                                         </details>
