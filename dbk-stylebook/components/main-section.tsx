@@ -3,8 +3,8 @@ import { supabase } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { processMarkdown } from '@/lib/remark';
-
+import ReactMarkdown from 'react-markdown';
+import { useToast } from "@/components/ui/use-toast"
 
 import { PenSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,29 +17,11 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
     const [data, setData] = useState<any[]>([]);
     const [editedContent, setEditedContent] = useState<string>('');
     const [isEditing, setIsEditing] = useState<string | null>(null);
-
-    const [processedMarkdown, setProcessedMarkdown] = useState<string>('');
+    const { toast } = useToast();
 
     useEffect(() => {
         fetchData();
-        
-        async function processDefinitions() {
-            const processed = await Promise.all(
-                data.map(async (item) => {
-                    const processedItem = { ...item };
-                    if (item.definition) {
-                        processedItem.definition = await processMarkdown(item.definition);
-                    }
-                    return processedItem;
-                })
-            );
-            setData(processed);
-        }
-
-        if (data.length > 0) {
-            processDefinitions();
-        }
-    }, [data]);
+    }, []);
 
     const fetchData = async () => {
         const { data: fetchedData, error } = await supabase
@@ -128,7 +110,13 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                     <div className="flex flex-col justify-start">
                                         <div className="">
                                             {isEditing === item.term ? (
-                                                <Button variant="outline" className="" onClick={() => { updateContent(item.id, editedContent); setIsEditing(null); }}>Save</Button>
+                                                <Button variant="outline" className="" onClick={() => { 
+                                                    updateContent(item.id, editedContent); 
+                                                    setIsEditing(null); 
+                                                    toast({
+                                                        description: `Updated ${item.term}!`,
+                                                    })
+                                                }}>Save</Button>
                                             ) : (
                                                 <Button variant="outline" size="icon" className="" onClick={() => { setIsEditing(item.term); setEditedContent(item.definition); }}>
                                                     <PenSquare className="h-6 w-6"/>
@@ -140,7 +128,9 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                             </div>
                             <div className="mt-4">
                                 {isEditing !== item.term && typeof item.definition === 'string' &&
-                                    <div className="text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: item.definition }} />
+                                    <ReactMarkdown className="text-sm text-gray-500">
+                                        {item.definition}
+                                    </ReactMarkdown>
                                 }
                                 {isEditing === item.term && <SimpleMDE value={editedContent} onChange={(value) => setEditedContent(value)} />}
                             </div>
