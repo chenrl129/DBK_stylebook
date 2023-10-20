@@ -3,7 +3,8 @@ import { supabase } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import ReactMarkdown from 'react-markdown';
+import { processMarkdown } from '@/lib/remark';
+
 
 import { PenSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,9 +18,28 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
     const [editedContent, setEditedContent] = useState<string>('');
     const [isEditing, setIsEditing] = useState<string | null>(null);
 
+    const [processedMarkdown, setProcessedMarkdown] = useState<string>('');
+
     useEffect(() => {
         fetchData();
-    }, []);
+        
+        async function processDefinitions() {
+            const processed = await Promise.all(
+                data.map(async (item) => {
+                    const processedItem = { ...item };
+                    if (item.definition) {
+                        processedItem.definition = await processMarkdown(item.definition);
+                    }
+                    return processedItem;
+                })
+            );
+            setData(processed);
+        }
+
+        if (data.length > 0) {
+            processDefinitions();
+        }
+    }, [data]);
 
     const fetchData = async () => {
         const { data: fetchedData, error } = await supabase
@@ -120,9 +140,7 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                             </div>
                             <div className="mt-4">
                                 {isEditing !== item.term && typeof item.definition === 'string' &&
-                                    <ReactMarkdown className="text-sm text-gray-500">
-                                        {item.definition}
-                                    </ReactMarkdown>
+                                    <div className="text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: item.definition }} />
                                 }
                                 {isEditing === item.term && <SimpleMDE value={editedContent} onChange={(value) => setEditedContent(value)} />}
                             </div>
