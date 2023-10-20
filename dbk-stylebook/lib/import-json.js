@@ -1,7 +1,7 @@
 const fs = require('fs');
 const data = JSON.parse(fs.readFileSync('stylebook.json', 'utf8'));
 
-let csv = 'id,category,term,important,sports,ap,definition\n';
+let csv = 'id,letter,term,important,sports,ap,definition\n';
 let id = 1; 
 
 for (const category in data) {

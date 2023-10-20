@@ -7,11 +7,11 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ setSearchInput }) => {
     const [input, setInput] = useState('');
 
-    const handleSearch = (e: any) => {
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
         setSearchInput(e.target.value);
     };
-
+    
     return (
         <div className="border-b -mt-4">
             <div className="mx-auto p-8 pt-14">

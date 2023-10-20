@@ -1,9 +1,6 @@
-"use client";
-
-import { cn } from "@/lib/utils";
 import { useEffect, useState } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { supabase } from '@/lib/api'; // Assuming you have a similar import path
+import { supabase } from '@/lib/api';
 
 const Sidebar = () => {
     const [data, setData] = useState<any[]>([]);
@@ -12,8 +9,9 @@ const Sidebar = () => {
         const fetchData = async () => {
             const { data: fetchedData, error } = await supabase
                 .from('stylebook')
-                .select();
-
+                .select()
+                .order('id', { ascending: true }); 
+        
             if (error) {
                 console.error('Error fetching data:', error);
             } else {
@@ -41,6 +39,11 @@ const Sidebar = () => {
         return groups;
     }, {} as { [key: string]: any[] });
 
+    const sortedLetters = Object.keys(groupedData).sort();
+    sortedLetters.forEach(letter => {
+        groupedData[letter].sort((a: any, b: any) => a.term.localeCompare(b.term));
+    });
+
     return (
         <div className="flex flex-col h-full bg-white">
             <ScrollArea className="w-full h-full">
@@ -48,9 +51,9 @@ const Sidebar = () => {
                     <div className="px-4">
                         <ul className="mt-6 space-y-1">
                             {
-                                Object.keys(groupedData).map((letter) => (
+                                sortedLetters.map((letter) => (
                                     <li key={letter}>
-                                        <details className="group [&_summary::-webkit-details-marker]:hidden">
+                                        <details className="group">
                                             <summary
                                                 className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                             >

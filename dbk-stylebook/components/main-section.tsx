@@ -3,6 +3,7 @@ import { supabase } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
+import ReactMarkdown from 'react-markdown';
 
 import { PenSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,20 +18,21 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
     const [isEditing, setIsEditing] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const { data: fetchedData, error } = await supabase
-                .from('stylebook')
-                .select();
-
-            if (error) {
-                console.error('Error fetching data:', error);
-            } else {
-                setData(fetchedData || []);
-            }
-        };
-
         fetchData();
     }, []);
+
+    const fetchData = async () => {
+        const { data: fetchedData, error } = await supabase
+            .from('stylebook')
+            .select()
+            .order('id', { ascending: true }); 
+    
+        if (error) {
+            console.error('Error fetching data:', error);
+        } else {
+            setData(fetchedData || []);
+        }
+    };
 
     const lowercasedSearchInput = searchInput.toLowerCase();
 
@@ -45,8 +47,9 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
 
     const filteredData = data.filter(item => 
         item.term.toLowerCase().includes(lowercasedSearchInput) || 
-        item.definition.toLowerCase().includes(lowercasedSearchInput)
+        (item.definition && item.definition.toLowerCase().includes(lowercasedSearchInput))
     );
+    
 
     const groupedByLetter = filteredData.reduce((groups, item) => {
         const letter = item.letter;
@@ -58,14 +61,19 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
     }, {} as { [key: string]: any[] });
 
     const updateContent = async (id: number, content: string) => {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('stylebook')
             .update({ definition: content })
-            .eq('id', id);
-
-        if (error) console.error('Error updating content:', error);
-        else alert('Content updated successfully!');
+            .eq('id', id)
+    
+        if (error) {
+            console.error('Error updating content:', error)
+        } else {
+            console.log(data)
+            fetchData();
+        }
     };
+    
 
     const sortedLetters = Object.keys(groupedByLetter).sort();
 
@@ -111,11 +119,11 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                 </div>
                             </div>
                             <div className="mt-4">
-                                {isEditing !== item.term && typeof item.definition === 'string' && item.definition.split('\n').map((line: any, lineIndex: number) => (
-                                    <p key={lineIndex} className="text-sm text-gray-500">
-                                        {highlightText(line)}
-                                    </p>
-                                ))}
+                                {isEditing !== item.term && typeof item.definition === 'string' &&
+                                    <ReactMarkdown className="text-sm text-gray-500">
+                                        {item.definition}
+                                    </ReactMarkdown>
+                                }
                                 {isEditing === item.term && <SimpleMDE value={editedContent} onChange={(value) => setEditedContent(value)} />}
                             </div>
                         </div>
