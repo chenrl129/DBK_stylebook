@@ -6,6 +6,14 @@ import "easymde/dist/easymde.min.css";
 import ReactMarkdown from 'react-markdown';
 import { useToast } from "@/components/ui/use-toast"
 import dynamic from "next/dynamic";
+import { MDXEditor } from "@/components/ui/mdx-editor";
+import { headingsPlugin } from '@mdxeditor/editor/plugins/headings'
+import { listsPlugin } from '@mdxeditor/editor/plugins/lists'
+import { quotePlugin } from '@mdxeditor/editor/plugins/quote'
+import { thematicBreakPlugin } from '@mdxeditor/editor/plugins/thematic-break'
+import { UndoRedo } from '@mdxeditor/editor/plugins/toolbar/components/UndoRedo'
+import { BoldItalicUnderlineToggles } from '@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles'
+import { toolbarPlugin } from '@mdxeditor/editor/plugins/toolbar'
 
 import { PenSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -138,7 +146,9 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                         {item.definition}
                                     </ReactMarkdown>
                                 }
-                                {isEditing === item.term && <SimpleMdeEditor value={editedContent} onChange={(value) => setEditedContent(value)} />}
+                                {isEditing === item.term && <MDXEditor markdown={editedContent} plugins={[headingsPlugin(), listsPlugin(), quotePlugin(), thematicBreakPlugin(), toolbarPlugin({
+        toolbarContents: () => ( <> <UndoRedo /><BoldItalicUnderlineToggles /></>)
+      })]} onChange={(value) => setEditedContent(value)} />}
                             </div>
                         </div>
                     ))}
