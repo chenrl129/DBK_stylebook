@@ -5,6 +5,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import ReactMarkdown from 'react-markdown';
 import { useToast } from "@/components/ui/use-toast"
+import dynamic from "next/dynamic";
 
 import { PenSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -79,6 +80,11 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
 
     const sortedLetters = Object.keys(groupedByLetter).sort();
 
+    const SimpleMdeEditor = dynamic(
+        () => import("react-simplemde-editor"),
+        { ssr: false }
+    );
+
     return (
         <div>
             {sortedLetters.map((letter, index) => (
@@ -132,7 +138,7 @@ const MainSection: React.FC<MainSectionProps> = ({ searchInput }) => {
                                         {item.definition}
                                     </ReactMarkdown>
                                 }
-                                {isEditing === item.term && <SimpleMDE value={editedContent} onChange={(value) => setEditedContent(value)} />}
+                                {isEditing === item.term && <SimpleMdeEditor value={editedContent} onChange={(value) => setEditedContent(value)} />}
                             </div>
                         </div>
                     ))}
