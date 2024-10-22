@@ -64,5 +64,4 @@ const Header: React.FC<HeaderProps> = ({ setSearchInput }) => {
         </div>
     );
 }
-
 export default Header;

@@ -1,20 +1,20 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     SheetTrigger,
-  } from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
 import Sidebar from "@/components/sidebar";
 import { useEffect, useState } from "react";
+import { Tables } from "@/lib/utils/types";
 
-const MobileSidebar = () => {
+interface MobileSidebarProps {
+    initialData: Tables<'stylebook'>[];
+}
+
+const MobileSidebar: React.FC<MobileSidebarProps> = ({ initialData }) => {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const MobileSidebar = () => {
                 </div>
             </SheetTrigger>
             <SheetContent side="left" className="p-2">
-                <Sidebar />
+                <Sidebar initialData={initialData} />
             </SheetContent>
         </Sheet>
     );

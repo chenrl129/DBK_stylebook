@@ -1,26 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { supabase } from '@/lib/api';
+import { Tables } from "@/lib/utils/types";
 
-const Sidebar = () => {
-    const [data, setData] = useState<any[]>([]);
+interface SidebarProps {
+    initialData: Tables<'stylebook'>[];
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ initialData }) => {
+    const [data, setData] = useState<Tables<'stylebook'>[]>(initialData);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const { data: fetchedData, error } = await supabase
-                .from('stylebook')
-                .select()
-                .order('id', { ascending: true }); 
-        
-            if (error) {
-                console.error('Error fetching data:', error);
-            } else {
-                setData(fetchedData || []);
-            }
-        };
-
-        fetchData();
-    }, []);
+        setData(initialData);
+    }, [initialData]);
 
     const handleScroll = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
@@ -31,13 +22,13 @@ const Sidebar = () => {
     };
 
     const groupedData = data.reduce((groups, item) => {
-        const letter = item.letter;
+        const letter = item.letter || '';
         if (!groups[letter]) {
             groups[letter] = [];
         }
         groups[letter].push(item);
         return groups;
-    }, {} as { [key: string]: any[] });
+    }, {} as { [key: string]: Tables<'stylebook'>[] });
 
     const sortedLetters = Object.keys(groupedData).sort();
     sortedLetters.forEach(letter => {
