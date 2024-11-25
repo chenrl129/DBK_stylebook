@@ -251,7 +251,7 @@ The titles in double bylines are associated with the higher staff rank of either
 Right: The students walked around the campus.
 The grounds of the University of Maryland should be referred to simply as the campus or this campus: This campus houses seven libraries.
 "
-78,W,"When referring to this university as an entity, use the University of Maryland on first reference, and the university or this university on subsequent references. Use the word university when modifying student groups, organizations, etc.: The university administration, the university jousting club, the university club baseball team. But for varsity sports teams, use Maryland.",false,false,false,"See university
+78,C,"When referring to this university as an entity, use the University of Maryland on first reference, and the university or this university on subsequent references. Use the word university when modifying student groups, organizations, etc.: The university administration, the university jousting club, the university club baseball team. But for varsity sports teams, use Maryland.",false,false,false,"See university
 "
 79,C,"campuswide",false,false,false,"No hyphen, one word.
 "
@@ -408,7 +408,7 @@ Right: Students at Courtyards, which is obscenely far away from where everyone e
 "
 128,C,"COVID-19",false,false,false,"Some news organizations have used lowercase, but we’re going to follow AP and keep it uppercase.
 "
-129,T,"The Crew",false,true,false,"Notoriously rowdy Maryland men’s soccer fans who stand in the bleachers behind the goals in Ludwig Field. Note the capital The.
+129,C,"The Crew",false,true,false,"Notoriously rowdy Maryland men’s soccer fans who stand in the bleachers behind the goals in Ludwig Field. Note the capital The.
 "
 130,C,"Critical Issues Defined by Black Student Leaders",false,false,false,"A university partnership with student organizations working to complete 25 demands from Black student leaders. The issues were outlined in fall 2020 and are still active. The demands include increasing the number of Black faculty and staff, reevaluating UMPD public funding, prioritizing Black student enrollment and creating more spaces on the campus for Black students. 
 "
@@ -519,7 +519,7 @@ The editor in chief’s tagline on columns, since December 2013, is “XXXXX is 
 "
 166,E,"Edward St. John Learning and Teaching Center, the",false,false,false,"On second reference: ESJ or the center. ESJ in ledes and headlines, followed by the full name on next reference. 
 "
-167,-,"-elect",false,false,false,"Lowercase and hyphenated: Gov.-elect Parris Glendening. Mike Tracton, Student Government Association president-elect.
+167,E,"-elect",false,false,false,"Lowercase and hyphenated: Gov.-elect Parris Glendening. Mike Tracton, Student Government Association president-elect.
 "
 168,E,"Ellicott Community, the",false,false,false,"Comprises three dorms: Ellicott, Hagerstown and La Plata halls.
 "
@@ -835,7 +835,7 @@ See KEHOE TRACK AND FIELD COMPLEX, THE
 "
 283,M,"M&T Bank Stadium",false,true,false,"Formerly PSINet Stadium. Located in Baltimore, this is where the Baltimore Ravens play. On second reference, the stadium is acceptable unless another stadium is mentioned.
 "
-284,“,"“M” circle, the",false,false,false,"The big “M” that the university spends a lot of money to plant with flowers. Formerly located in the traffic circle at the intersection of Campus and Regents drives, it was moved to the Engineering Fields to make way for the Purple Line.
+284,M,"“M” circle, the",false,false,false,"The big “M” that the university spends a lot of money to plant with flowers. Formerly located in the traffic circle at the intersection of Campus and Regents drives, it was moved to the Engineering Fields to make way for the Purple Line.
 Use “M” circle on all references.
 "
 285,M,"M Club, the",false,false,false,"Athletic department foundation consisting of former Maryland college athletes.
@@ -1056,7 +1056,7 @@ See grant, student loans
 "
 358,P,"per",false,false,false,"Avoid it, except in sports references. Use a or an or replace it altogether: The committee meets 12 times a year. The expedition traveled an average of 12 miles a day. The wind blew at 40 mph.
 "
-359,A,"AP DEVIAVTION",false,false,false,"percent
+359,P,"AP DEVIAVTION",false,false,false,"percent
 Spell out percent in all usages.
 Right: About 50 percent of Nataraj’s time goes to engineering. 
 Wrong: About 50% of Nataraj’s time goes to engineering.
@@ -1244,14 +1244,14 @@ Also, on all references for Rev. Rich Abdill.
 "
 418,R,"Riverdale Park",false,false,false,"Not Riverdale. The town changed its name in 1998.
 "
-419,S,"Station at Riverdale Park, the",false,false,false,"An upscale development on Route 1 south of the campus. It’s the one with the Whole Foods. 
+419,R,"Station at Riverdale Park, the",false,false,false,"An upscale development on Route 1 south of the campus. It’s the one with the Whole Foods. 
 "
 420,R,"R.J. Bentley’s",false,false,false,"Bentley’s on second reference. Note there is not a space in R.J.
 "
 421,R,"Robert H. Smith School of Business, the",false,false,false,"Don’t use.
 See business school
 "
-422,“,"“Rock and Roll, Part II”",false,true,false,"Use in quotations to refer to the song chanted at athletic events. Do not refer to it as the “You Suck” song.
+422,R,"“Rock and Roll, Part II”",false,true,false,"Use in quotations to refer to the song chanted at athletic events. Do not refer to it as the “You Suck” song.
 "
 423,R,"room numbers",false,false,false,"Lowercase: room 3112 of Stamp Student Union. Never use a letter prefix to a room, such as T-300 Skinner Building. The T refers to the campus’s letter code for the building and therefore is redundant.
 "
@@ -1529,7 +1529,7 @@ See TRAILS
 "
 518,T,"Twitter",false,false,false,"Use “Zoe Pierce said on Twitter” rather than @zoehpierce said unless the handle is important to the story (@fakewallaceloh).
 "
-519,2,"247Sports",false,true,false,"No .com. Note the capital S.
+519,T,"247Sports",false,true,false,"No .com. Note the capital S.
 "
 520,U,"UMD Alerts",false,false,false,"Messages sent as emails and text messages to warn university students and staff about crime, inclement weather or other urgent matters that could affect the campus. This is an exception to the rule against using UMD; don’t use University of Maryland Alert, because they’re widely known as UMD Alerts.
 On second reference to a specific alert, the alert.
@@ -1599,12 +1599,12 @@ On first reference, the University System of Maryland Student Council, or the sy
 "
 541,V,"Varsity, The",false,false,false,"Apartment complex on Route 1 north of the University View. Note the capitalized The.
 "
-542,S,"sports",false,false,false,"Varsity Practice Fields, the
+542,V,"sports",false,false,false,"Varsity Practice Fields, the
 The full-length soccer practice field between Farm and Stadium drives, adjacent to Lot Q. Surrounded by a chain-link fence and netting. The men’s and women’s soccer teams practice here; it’s not open to the public.
 Not to be confused with the Schutz Football Practice Complex.
 See Schutz Football Practice Complex, THE
 "
-543,S,"sports",false,false,false,"Varsity Team House, the
+543,V,"sports",false,false,false,"Varsity Team House, the
 Located on Stadium Drive, adjacent to the J. Logan and Louise Schutz Football Practice Complex, this facility is home to an athletic training room for several varsity sports.
 Not to be confused with the Gossett Football Team House, which is on the other side of Lot R3.
 See Gossett FOOTBALL TEAM HOUSE
@@ -1640,7 +1640,7 @@ See radio stations
 "
 554,X,"XF",false,false,false,"No quotations. Failure of a class due to academic dishonesty.
 "
-555,S,"sports",false,false,false,"Xfinity Center
+555,X,"sports",false,false,false,"Xfinity Center
 Home of the athletic department and near Lot 4, north of North Campus. Both basketball teams, the volleyball team and the wrestling team compete there. It opened for the 2002-03 basketball season as Comcast Center and was renamed in July 2014.
 The arena or Xfinity is acceptable on second reference. It does not take the article ‘the’ in front of it: The game was played at Xfinity Center. But: the Xfinity Center fans, the Xfinity Center scoreboard.
 "
