@@ -12,8 +12,8 @@ data.forEach(item => {
 });
 
 // Writing it to a new file in case we need to hold on to the old data
-fs.writeFileSync('new_data.csv', csv);
-console.log('Data written to new_data.csv');
+fs.writeFileSync('data.csv', csv);
+console.log('Data written to data.csv');
 
 
 
